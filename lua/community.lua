@@ -34,4 +34,8 @@ return {
   { import = "astrocommunity.utility.noice-nvim" },
   { import = "astrocommunity.utility.nvim-toggler" },
   { import = "astrocommunity.diagnostics.trouble-nvim" },
+  { import = "astrocommunity.programming-language-support.web-tools-nvim" },
+  { import = "astrocommunity.programming-language-support.rest-nvim" },
+  { import = "astrocommunity.debugging.nvim-bqf" },
+  { import = "astrocommunity.recipes.heirline-nvchad-statusline" },
 }

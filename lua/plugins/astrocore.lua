@@ -51,8 +51,6 @@ return {
 
         L = { "$" },
         H = { "^" },
-        ["<C-d>"] = { "<C-d>zz" },
-        ["<C-u>"] = { "<C-u>zz" },
 
         -- mappings seen under group name "Buffer"
         ["<Leader>bD"] = {
@@ -68,10 +66,6 @@ return {
         ["<Leader>b"] = { desc = "Buffers" },
         -- quick save
         -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
-      },
-      v = {
-        L = { "$" },
-        H = { "^" },
       },
       t = {
         -- setting a mapping to false will disable it

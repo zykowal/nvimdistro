@@ -15,5 +15,12 @@ if not pcall(require, "lazy") then
   vim.cmd.quit()
 end
 
+if vim.g.neovide then
+  vim.o.guifont = "Operator Mono Lig:h17.5"
+  vim.opt.linespace = 3
+  vim.g.neovide_window_blurred = true
+  -- vim.g.neovide_fullscreen = true
+end
+
 require "lazy_setup"
 require "polish"
