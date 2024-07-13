@@ -15,6 +15,7 @@ return {
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.toml" },
   { import = "astrocommunity.pack.sql" },
+  { import = "astrocommunity.pack.java" },
   { import = "astrocommunity.pack.python-ruff" },
   { import = "astrocommunity.pack.svelte" },
   { import = "astrocommunity.pack.typescript-all-in-one" },
@@ -33,7 +34,6 @@ return {
   { import = "astrocommunity.editing-support.neogen" },
   { import = "astrocommunity.editing-support.nvim-treesitter-context" },
   { import = "astrocommunity.scrolling.neoscroll-nvim" },
-  { import = "astrocommunity.scrolling.mini-animate" },
   { import = "astrocommunity.utility.noice-nvim" },
   { import = "astrocommunity.utility.nvim-toggler" },
   { import = "astrocommunity.diagnostics.trouble-nvim" },
@@ -41,4 +41,7 @@ return {
   { import = "astrocommunity.debugging.nvim-bqf" },
   { import = "astrocommunity.recipes.heirline-nvchad-statusline" },
   { import = "astrocommunity.code-runner.overseer-nvim" },
+  { import = "astrocommunity.file-explorer.telescope-file-browser-nvim" },
+  { import = "astrocommunity.fuzzy-finder.telescope-zoxide" },
+  { import = "astrocommunity.recipes.neovide" },
 }
