@@ -50,6 +50,8 @@ return {
         H = { "^" },
 
         ["<Leader>b"] = { desc = "Buffers" },
+        -- compiler.nvim
+        ["<Leader>Mo"] = { "<cmd>CompilerOpen<CR>", desc = "Compiler Open" },
       },
       t = {
         -- setting a mapping to false will disable it
