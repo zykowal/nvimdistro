@@ -1,6 +1,6 @@
 return {
   "voldikss/vim-translator",
   keys = {
-    { "<leader>tw", "<cmd>TranslateW<CR>", desc = "translate a word/line" },
+    { "<leader>tw", "<cmd>TranslateW<CR>", desc = "Translate a word" },
   },
 }

@@ -35,6 +35,7 @@ return {
   { import = "astrocommunity.editing-support.multicursors-nvim" },
   { import = "astrocommunity.editing-support.telescope-undo-nvim" },
   { import = "astrocommunity.scrolling.neoscroll-nvim" },
+  { import = "astrocommunity.test.neotest" },
   { import = "astrocommunity.utility.noice-nvim" },
   { import = "astrocommunity.utility.nvim-toggler" },
   { import = "astrocommunity.diagnostics.trouble-nvim" },
