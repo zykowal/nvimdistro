@@ -28,7 +28,7 @@ return {
       opt = { -- vim.opt.<key>
         relativenumber = true, -- sets vim.opt.relativenumber
         number = true, -- sets vim.opt.number
-        spell = true, -- sets vim.opt.spell
+        spell = false, -- sets vim.opt.spell
         signcolumn = "yes", -- sets vim.opt.signcolumn to auto
         wrap = false, -- sets vim.opt.wrap
         scrolloff = 7,
@@ -56,6 +56,10 @@ return {
       t = {
         -- setting a mapping to false will disable it
         -- ["<esc>"] = false,
+      },
+      v = {
+        L = { "$" },
+        H = { "^" },
       },
     },
   },
