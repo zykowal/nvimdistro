@@ -15,10 +15,7 @@ if not pcall(require, "lazy") then
   vim.cmd.quit()
 end
 
-if vim.g.neovide then
-  vim.o.guifont = "Operator Mono Lig:h18"
-  vim.opt.linespace = 3
-end
+if vim.g.neovide then vim.o.guifont = "Operator Mono Lig:h18:w0.5" end
 
 require "lazy_setup"
 require "polish"
