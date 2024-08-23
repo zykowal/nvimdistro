@@ -32,7 +32,6 @@ return {
         signcolumn = "yes", -- sets vim.opt.signcolumn to auto
         wrap = false, -- sets vim.opt.wrap
         scrolloff = 7, -- sets vim.opt.scrolloff
-        linespace = 3, -- sets vim.opt.linespace
         ignorecase = true, -- sets vim.opt.ignorecase
         smartcase = true, -- sets vim.opt.smartcase
         incsearch = true, -- sets vim.opt.incsearch
