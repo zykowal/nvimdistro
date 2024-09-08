@@ -1,6 +1,6 @@
 return {
   "rizzatti/dash.vim",
   keys = {
-    { "<leader>td", ":Dash ", desc = "Find docs in Dash" },
+    { "<leader>tD", ":Dash ", desc = "Find docs in Dash" },
   },
 }

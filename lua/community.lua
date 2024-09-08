@@ -53,4 +53,5 @@ return {
   { import = "astrocommunity.fuzzy-finder.telescope-zoxide" },
   { import = "astrocommunity.comment.ts-comments-nvim" },
   { import = "astrocommunity.register.nvim-neoclip-lua" },
+  { import = "astrocommunity.docker.lazydocker" },
 }

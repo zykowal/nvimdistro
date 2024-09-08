@@ -35,6 +35,8 @@ return {
         ignorecase = true, -- sets vim.opt.ignorecase
         smartcase = true, -- sets vim.opt.smartcase
         incsearch = true, -- sets vim.opt.incsearch
+        termguicolors = true, -- sets vim.opt.termguicolors
+        background = "dark", -- sets vim.opt.background
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
@@ -52,7 +54,6 @@ return {
         L = { "$" },
         H = { "^" },
 
-        ["<Leader>tD"] = { "<cmd>LazyDocker<CR>", desc = "Toggle LazyDocker" },
         ["<Leader>b"] = { desc = "Buffers" },
         -- compiler.nvim
         ["<Leader>Mo"] = { "<cmd>CompilerOpen<CR>", desc = "Compiler Open" },
