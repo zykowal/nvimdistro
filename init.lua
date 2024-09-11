@@ -16,7 +16,7 @@ if not pcall(require, "lazy") then
 end
 
 if vim.g.neovide then
-  vim.o.guifont = "Operator Mono Lig:h18:w0.5"
+  vim.o.guifont = "CaskaydiaCove Nerd Font Mono:h18"
   vim.o.linespace = 3
 end
 

@@ -49,7 +49,6 @@ return {
   { import = "astrocommunity.recipes.neo-tree-dark" },
   { import = "astrocommunity.code-runner.overseer-nvim" },
   { import = "astrocommunity.code-runner.compiler-nvim" },
-  { import = "astrocommunity.file-explorer.telescope-file-browser-nvim" },
   { import = "astrocommunity.fuzzy-finder.telescope-zoxide" },
   { import = "astrocommunity.comment.ts-comments-nvim" },
   { import = "astrocommunity.register.nvim-neoclip-lua" },

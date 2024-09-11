@@ -54,7 +54,7 @@ return {
         L = { "$" },
         H = { "^" },
 
-        ["<Leader>b"] = { desc = "Buffers" },
+        ["<Leader>b"] = { desc = " Buffers" },
         -- compiler.nvim
         ["<Leader>Mo"] = { "<cmd>CompilerOpen<CR>", desc = "Compiler Open" },
       },
