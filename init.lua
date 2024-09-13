@@ -16,7 +16,7 @@ if not pcall(require, "lazy") then
 end
 
 if vim.g.neovide then
-  vim.o.guifont = "CaskaydiaCove Nerd Font Mono:h18"
+  vim.g.neovide_hide_mouse_when_typing = true
   vim.o.linespace = 3
 end
 
