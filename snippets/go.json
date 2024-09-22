@@ -1,0 +1,12 @@
+{
+  "iferr": {
+    "prefix": "iferr",
+    "body": [
+      "if err != nil {",
+      "\treturn err",
+      "}",
+      ""
+    ],
+    "description": "iferr"
+  }
+}
