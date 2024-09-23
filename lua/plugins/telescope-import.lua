@@ -3,6 +3,6 @@ return {
   dependencies = "nvim-telescope/telescope.nvim",
   config = function() require("telescope").load_extension "import" end,
   keys = {
-    { "<leader>fi", ":Telescope import<CR>", desc = "Find import modules" },
+    { mode = { "n" }, "<leader>fi", ":Telescope import<CR>", desc = "Find import modules" },
   },
 }

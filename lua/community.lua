@@ -50,4 +50,5 @@ return {
   { import = "astrocommunity.register.nvim-neoclip-lua" },
   { import = "astrocommunity.docker.lazydocker" },
   { import = "astrocommunity.search.grug-far-nvim" },
+  { import = "astrocommunity.markdown-and-latex.markview-nvim" },
 }
