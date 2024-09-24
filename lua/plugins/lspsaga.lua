@@ -27,6 +27,10 @@ return {
         maps.n["<Leader>lp"] =
           { "<Cmd>Lspsaga peek_definition<CR>", desc = "Peek definition", cond = "textDocument/definition" }
 
+        -- goto type definition
+        maps.n["<Leader>lt"] =
+          { "<Cmd>Lspsaga goto_type_definition<CR>", desc = "Goto type definition", cond = "textDocument/definition" }
+
         -- outline
         maps.n["<Leader>lS"] =
           { "<Cmd>Lspsaga outline<CR>", desc = "Symbols outline", cond = "textDocument/documentSymbol" }

@@ -33,7 +33,6 @@ return {
   { import = "astrocommunity.lsp.nvim-lint" },
   { import = "astrocommunity.lsp.ts-error-translator-nvim" },
   { import = "astrocommunity.lsp.actions-preview-nvim" },
-  { import = "astrocommunity.editing-support.neogen" },
   { import = "astrocommunity.editing-support.nvim-treesitter-context" },
   { import = "astrocommunity.editing-support.multicursors-nvim" },
   { import = "astrocommunity.editing-support.undotree" },
