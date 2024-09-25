@@ -16,6 +16,7 @@ return {
       "AstroNvim/astrolsp",
       opts = function(_, opts)
         local maps = opts.mappings
+        maps.n["K"] = { "<Cmd>Lspsaga hover_doc<CR>", desc = "Hover symbol details", cond = "textDocument/hover" }
 
         -- call hierarchy
         maps.n["<Leader>lc"] =
@@ -28,8 +29,11 @@ return {
           { "<Cmd>Lspsaga peek_definition<CR>", desc = "Peek definition", cond = "textDocument/definition" }
 
         -- goto type definition
-        maps.n["<Leader>lt"] =
-          { "<Cmd>Lspsaga goto_type_definition<CR>", desc = "Goto type definition", cond = "textDocument/definition" }
+        maps.n["<Leader>lt"] = {
+          "<Cmd>Lspsaga goto_type_definition<CR>",
+          desc = "Goto type definition",
+          cond = "textDocument/typeDefinition",
+        }
 
         -- outline
         maps.n["<Leader>lS"] =
@@ -42,6 +46,8 @@ return {
           cond = function(client)
             return client.supports_method "textDocument/references"
               or client.supports_method "textDocument/implementation"
+              or client.supports_method "textDocument/definition"
+              or client.supports_method "textDocument/typeDefinition"
           end,
         }
 
@@ -61,6 +67,19 @@ return {
       lightbulb = {
         sign = false,
         enable = false,
+      },
+      implement = {
+        enable = true,
+        sign = true,
+      },
+      finder = {
+        max_height = 0.6,
+        left_width = 0.25,
+        right_width = 0.55,
+        default = "def+tyd+ref+imp",
+        methods = {
+          ["tyd"] = "textDocument/typeDefinition",
+        },
       },
       ui = {
         code_action = get_icon "DiagnosticHint",
