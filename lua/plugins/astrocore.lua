@@ -53,8 +53,6 @@ return {
 
         L = { "$" },
         H = { "^" },
-
-        ["<Leader>b"] = { desc = " Buffers" },
       },
       t = {
         -- setting a mapping to false will disable it

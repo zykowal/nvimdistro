@@ -24,6 +24,12 @@ return {
         maps.n["<Leader>lC"] =
           { "<Cmd>Lspsaga outgoing_calls<CR>", desc = "Outgoing calls", cond = "callHierarchy/outgoingCalls" }
 
+        -- code action
+        maps.n["<Leader>la"] =
+          { "<Cmd>Lspsaga code_action<CR>", desc = "LSP code action", cond = "textDocument/codeAction" }
+        maps.x["<Leader>la"] =
+          { ":<C-U>Lspsaga code_action<CR>", desc = "LSP code action", cond = "textDocument/codeAction" }
+
         -- definition
         maps.n["<Leader>lp"] =
           { "<Cmd>Lspsaga peek_definition<CR>", desc = "Peek definition", cond = "textDocument/definition" }
