@@ -13,6 +13,17 @@ return {
       },
     }
 
+    opts.window = {
+      completion = {
+        border = "none",
+        scrollbar = false,
+      },
+      documentation = {
+        border = "none",
+        scrollbar = false,
+      },
+    }
+
     return opts
   end,
 }

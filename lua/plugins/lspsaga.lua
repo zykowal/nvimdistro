@@ -24,23 +24,6 @@ return {
         maps.n["<Leader>lC"] =
           { "<Cmd>Lspsaga outgoing_calls<CR>", desc = "Outgoing calls", cond = "callHierarchy/outgoingCalls" }
 
-        -- code action
-        maps.n["<Leader>la"] =
-          { "<Cmd>Lspsaga code_action<CR>", desc = "LSP code action", cond = "textDocument/codeAction" }
-        maps.x["<Leader>la"] =
-          { ":<C-U>Lspsaga code_action<CR>", desc = "LSP code action", cond = "textDocument/codeAction" }
-
-        -- definition
-        maps.n["<Leader>lp"] =
-          { "<Cmd>Lspsaga peek_definition<CR>", desc = "Peek definition", cond = "textDocument/definition" }
-
-        -- goto type definition
-        maps.n["<Leader>lt"] = {
-          "<Cmd>Lspsaga goto_type_definition<CR>",
-          desc = "Goto type definition",
-          cond = "textDocument/typeDefinition",
-        }
-
         -- outline
         maps.n["<Leader>lS"] =
           { "<Cmd>Lspsaga outline<CR>", desc = "Symbols outline", cond = "textDocument/documentSymbol" }
