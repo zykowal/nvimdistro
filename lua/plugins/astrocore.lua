@@ -20,8 +20,12 @@ return {
     },
     -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
     diagnostics = {
-      virtual_text = true,
+      virtual_text = false,
       underline = true,
+      virtual_lines = {
+        only_current_line = true,
+        highlight_whole_line = true,
+      },
     },
     -- vim options can be configured here
     options = {
@@ -53,6 +57,9 @@ return {
 
         L = { "$" },
         H = { "^" },
+        ["gra"] = false,
+        ["grn"] = false,
+        ["grr"] = false,
       },
       t = {
         -- setting a mapping to false will disable it

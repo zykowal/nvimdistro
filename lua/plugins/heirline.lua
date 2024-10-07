@@ -92,7 +92,7 @@ return {
       -- %L = number of lines in the buffer
       -- %c = column number
       -- %p = percentage through file of displayed window
-      provider = "%8(%l:%c%) %p%%",
+      provider = "%8(%l:%c%) %p%% ",
     }
     opts.statusline = {
       hl = { fg = "fg", bg = "bg" },

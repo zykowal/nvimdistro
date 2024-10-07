@@ -18,6 +18,17 @@ return {
         local maps = opts.mappings
         maps.n["K"] = { "<Cmd>Lspsaga hover_doc<CR>", desc = "Hover symbol details", cond = "textDocument/hover" }
 
+        -- code action
+        maps.n["gl"] = {
+          "<Cmd>Lspsaga show_line_diagnostics<CR>",
+          desc = "Hover diagnostics",
+        }
+
+        maps.n["gL"] = {
+          "<Cmd>Lspsaga show_workspace_diagnostics<CR>",
+          desc = "Hover diagnostics",
+        }
+
         -- call hierarchy
         maps.n["<Leader>lc"] =
           { "<Cmd>Lspsaga incoming_calls<CR>", desc = "Incoming calls", cond = "callHierarchy/incomingCalls" }
@@ -56,10 +67,6 @@ return {
       lightbulb = {
         sign = false,
         enable = false,
-      },
-      implement = {
-        enable = true,
-        sign = true,
       },
       finder = {
         max_height = 0.6,

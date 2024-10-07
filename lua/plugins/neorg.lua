@@ -5,6 +5,12 @@ return {
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   opts = {
     load = {
+      ["core.export"] = {},
+      ["core.export.markdown"] = {
+        config = {
+          extensions = { "all" },
+        },
+      },
       ["core.defaults"] = {}, -- Loads default behaviour
       ["core.concealer"] = {}, -- Adds pretty icons to your documents
       ["core.keybinds"] = {}, -- Adds default keybindings

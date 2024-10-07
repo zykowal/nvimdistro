@@ -14,6 +14,7 @@ return {
       codelens = true, -- enable/disable codelens refresh on start
       inlay_hints = true, -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
+      signature_help = true, -- enable/disable signature help
     },
     -- customize lsp formatting options
     formatting = {
@@ -91,8 +92,6 @@ return {
     -- mappings to be set up on attaching of a language server
     mappings = {
       n = {
-        gl = { "<Cmd>Lspsaga show_line_diagnostics<CR>", desc = "Hover diagnostics" },
-        gL = { "<Cmd>Lspsaga show_workspace_diagnostics<CR>", desc = "Workspace diagnostics" },
         -- gl = { function() vim.diagnostic.open_float() end, desc = "Hover diagnostics" },
         -- a `cond` key can provided as the string of a server capability to be required to attach, or a function with `client` and `bufnr` parameters from the `on_attach` that returns a boolean
         -- gD = {

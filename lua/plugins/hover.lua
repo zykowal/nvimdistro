@@ -8,8 +8,7 @@ return {
         options = { opt = { mousemoveevent = false } },
         mappings = {
           n = {
-            gh = { function() require("hover").hover() end, desc = "Hover cursor" },
-            gk = { function() require("hover").hover_select() end, desc = "Hover selection" },
+            gk = { function() require("hover").hover() end, desc = "Hover cursor" },
             ["]h"] = { function() require("hover").hover_switch "next" end, desc = "Next hover source" },
             ["[h"] = { function() require("hover").hover_switch "previous" end, desc = "Previous hover source" },
           },
