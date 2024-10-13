@@ -18,12 +18,6 @@ return {
         local maps = opts.mappings
         maps.n["gk"] = { "<Cmd>Lspsaga hover_doc<CR>", desc = "Hover symbol details", cond = "textDocument/hover" }
 
-        -- code action
-        maps.n["gl"] = {
-          "<Cmd>Lspsaga show_line_diagnostics<CR>",
-          desc = "Hover diagnostics",
-        }
-
         maps.n["gL"] = {
           "<Cmd>Lspsaga show_workspace_diagnostics<CR>",
           desc = "Hover diagnostics",
@@ -78,6 +72,7 @@ return {
         },
       },
       ui = {
+        border = "none",
         code_action = get_icon "DiagnosticHint",
         expand = get_icon "FoldClosed",
         collapse = get_icon "FoldOpened",

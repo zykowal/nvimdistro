@@ -2,7 +2,6 @@ return {
   "hrsh7th/nvim-cmp",
   dependencies = {
     "onsails/lspkind.nvim",
-    "honza/vim-snippets",
   },
   opts = function(_, opts)
     local lspkind = require "lspkind"
