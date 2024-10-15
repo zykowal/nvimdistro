@@ -19,7 +19,7 @@ return {
         scrollbar = false,
       },
       documentation = {
-        border = "none",
+        border = "rounded",
         scrollbar = false,
       },
     }
