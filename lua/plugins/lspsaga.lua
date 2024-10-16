@@ -33,18 +33,6 @@ return {
         maps.n["<Leader>lS"] =
           { "<Cmd>Lspsaga outline<CR>", desc = "Symbols outline", cond = "textDocument/documentSymbol" }
 
-        -- references
-        maps.n["<Leader>lR"] = {
-          "<Cmd>Lspsaga finder<CR>",
-          desc = "Search references",
-          cond = function(client)
-            return client.supports_method "textDocument/references"
-              or client.supports_method "textDocument/implementation"
-              or client.supports_method "textDocument/definition"
-              or client.supports_method "textDocument/typeDefinition"
-          end,
-        }
-
         -- rename
         maps.n["<Leader>lr"] =
           { "<Cmd>Lspsaga rename<CR>", desc = "Rename current symbol", cond = "textDocument/rename" }
@@ -62,17 +50,8 @@ return {
         sign = false,
         enable = false,
       },
-      finder = {
-        max_height = 0.6,
-        left_width = 0.25,
-        right_width = 0.55,
-        default = "def+tyd+ref+imp",
-        methods = {
-          ["tyd"] = "textDocument/typeDefinition",
-        },
-      },
       ui = {
-        border = "none",
+        border = "rounded",
         code_action = get_icon "DiagnosticHint",
         expand = get_icon "FoldClosed",
         collapse = get_icon "FoldOpened",
