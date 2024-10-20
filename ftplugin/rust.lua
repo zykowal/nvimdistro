@@ -11,3 +11,9 @@ vim.keymap.set(
   function() vim.cmd.RustLsp "renderDiagnostic" end,
   { silent = true, buffer = bufnr, desc = "Render Rust Diagnostic" }
 )
+vim.keymap.set(
+  "n",
+  "<leader>lo",
+  function() vim.cmd.RustLsp "openDocs" end,
+  { silent = true, buffer = bufnr, desc = "Open Rust Docs" }
+)
