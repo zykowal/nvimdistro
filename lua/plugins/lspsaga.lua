@@ -16,7 +16,6 @@ return {
       "AstroNvim/astrolsp",
       opts = function(_, opts)
         local maps = opts.mappings
-        maps.n["gk"] = { "<Cmd>Lspsaga hover_doc<CR>", desc = "Hover symbol details", cond = "textDocument/hover" }
 
         maps.n["gL"] = {
           "<Cmd>Lspsaga show_workspace_diagnostics<CR>",
