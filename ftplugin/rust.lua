@@ -1,13 +1,13 @@
 local bufnr = vim.api.nvim_get_current_buf()
 vim.keymap.set(
   "n",
-  "<leader>le",
+  "<leader>lE",
   function() vim.cmd.RustLsp "explainError" end,
   { silent = true, buffer = bufnr, desc = "Explain Rust Error" }
 )
 vim.keymap.set(
   "n",
-  "<leader>lE",
+  "<leader>le",
   function() vim.cmd.RustLsp "renderDiagnostic" end,
   { silent = true, buffer = bufnr, desc = "Render Rust Diagnostic" }
 )
