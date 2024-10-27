@@ -2,6 +2,7 @@ return {
   "hrsh7th/nvim-cmp",
   dependencies = {
     "onsails/lspkind.nvim",
+    "luckasRanarison/tailwind-tools.nvim",
   },
   opts = function(_, opts)
     local lspkind = require "lspkind"
@@ -10,6 +11,7 @@ return {
       format = lspkind.cmp_format {
         mode = "text",
         show_labelDetails = true,
+        before = require("tailwind-tools.cmp").lspkind_format,
       },
     }
 

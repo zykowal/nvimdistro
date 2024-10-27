@@ -3,6 +3,10 @@ return {
   "rmagatti/goto-preview",
   event = "BufEnter",
   config = true,
+  opts = {
+    width = 128, -- Width of the floating window
+    height = 20, -- Height of the floating window
+  },
   dependencies = {
     "AstroNvim/astrolsp",
     opts = function(_, opts)
