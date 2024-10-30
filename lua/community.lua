@@ -23,7 +23,6 @@ return {
   { import = "astrocommunity.pack.svelte" },
   { import = "astrocommunity.pack.typescript" },
   { import = "astrocommunity.color.transparent-nvim" },
-  { import = "astrocommunity.motion.flash-nvim" },
   { import = "astrocommunity.motion.nvim-surround" },
   { import = "astrocommunity.git.git-blame-nvim" },
   { import = "astrocommunity.completion.codeium-vim" },
