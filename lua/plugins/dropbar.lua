@@ -3,6 +3,7 @@ return {
   event = "UIEnter",
   opts = {
     menu = {
+      preview = false,
       scrollbar = {
         enable = false,
         background = true,
@@ -30,7 +31,11 @@ return {
       opts = function(_, opts) opts.winbar = nil end,
     },
   },
-  keys = {
-    { mode = { "n" }, "gj", function() require("dropbar.api").pick() end, desc = "Pick dropbar" },
+  dependencies = {
+    "AstroNvim/astrocore",
+    opts = function(_, opts)
+      local maps = opts.mappings
+      maps.n["gj"] = { function() require("dropbar.api").pick() end, desc = "Pick dropbar" }
+    end,
   },
 }

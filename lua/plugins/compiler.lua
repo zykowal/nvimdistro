@@ -16,10 +16,14 @@ return {
       },
       config = function(_, opts) require("overseer").setup(opts) end,
     },
+    {
+      "AstroNvim/astrocore",
+      opts = function(_, opts)
+        local maps = opts.mappings
+        maps.n["<leader>Mo"] = { "<cmd>CompilerOpen<CR>", desc = "Compiler Open" }
+      end,
+    },
   },
   cmd = { "CompilerOpen", "CompilerToggleResults" },
   opts = {},
-  keys = {
-    { "<Leader>Mo", "<cmd>CompilerOpen<CR>", desc = "Compiler Open" },
-  },
 }
