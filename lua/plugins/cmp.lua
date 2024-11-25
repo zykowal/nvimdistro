@@ -11,13 +11,9 @@ return {
       local kind1 = entry1:get_kind()
       local kind2 = entry2:get_kind()
 
-      if kind1 == cmp.lsp.CompletionItemKind.Snippet and kind2 ~= cmp.lsp.CompletionItemKind.Snippet then
-        return false
-      end
+      if kind1 == cmp.lsp.CompletionItemKind.Method and kind2 ~= cmp.lsp.CompletionItemKind.Method then return true end
 
-      if kind2 == cmp.lsp.CompletionItemKind.Snippet and kind1 ~= cmp.lsp.CompletionItemKind.Snippet then
-        return true
-      end
+      if kind2 == cmp.lsp.CompletionItemKind.Method and kind1 ~= cmp.lsp.CompletionItemKind.Method then return false end
 
       return nil
     end
