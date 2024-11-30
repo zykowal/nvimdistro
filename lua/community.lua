@@ -25,7 +25,6 @@ return {
   { import = "astrocommunity.color.transparent-nvim" },
   { import = "astrocommunity.motion.nvim-surround" },
   { import = "astrocommunity.git.git-blame-nvim" },
-  { import = "astrocommunity.completion.cmp-cmdline" },
   { import = "astrocommunity.lsp.nvim-lint" },
   { import = "astrocommunity.lsp.lsplinks-nvim" },
   { import = "astrocommunity.lsp.ts-error-translator-nvim" },
