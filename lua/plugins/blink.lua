@@ -9,8 +9,6 @@ return {
   version = "*",
   dependencies = {
     "rafamadriz/friendly-snippets",
-    "L3MON4D3/LuaSnip",
-    "leiserfg/blink_luasnip",
   },
   opts_extend = { "sources.completion.enabled_providers" },
   opts = {
@@ -25,20 +23,7 @@ return {
     -- remember to enable your providers here
     sources = {
       completion = {
-        enabled_providers = { "lsp", "path", "snippets", "buffer", "luasnip" }, -- add
-      },
-      providers = {
-        luasnip = {
-          name = "luasnip",
-          module = "blink_luasnip",
-
-          score_offset = -3,
-
-          opts = {
-            use_show_condition = false, -- disables filtering completion candidates
-            show_autosnippets = true,
-          },
-        },
+        enabled_providers = { "lsp", "path", "snippets", "buffer" }, -- add
       },
     },
 
@@ -84,6 +69,7 @@ return {
     },
     windows = {
       autocomplete = {
+        selection = "auto_insert",
         border = "none",
         scrollbar = false,
         winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
