@@ -32,6 +32,8 @@ return {
         signcolumn = "yes", -- sets vim.opt.signcolumn to auto
         wrap = false, -- sets vim.opt.wrap
         scrolloff = 7, -- sets vim.opt.scrolloff
+        smoothscroll = true, -- sets vim.opt.smoothscroll
+        expandtab = true, -- sets vim.opt.expandtab
         ignorecase = true, -- sets vim.opt.ignorecase
         smartcase = true, -- sets vim.opt.smartcase
         incsearch = true, -- sets vim.opt.incsearch

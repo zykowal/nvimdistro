@@ -15,5 +15,17 @@ if not pcall(require, "lazy") then
   vim.cmd.quit()
 end
 
+-- Create an autocommand group for cursor centering
+local cursorGrp = vim.api.nvim_create_augroup("CursorCenter", { clear = true })
+
+-- Automatically center cursor after various movements
+vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+  group = cursorGrp,
+  callback = function()
+    -- Only center if we're not in command or search mode
+    if vim.fn.getcmdtype() == "" and vim.fn.mode() ~= "c" then vim.cmd "norm! zz" end
+  end,
+})
+
 require "lazy_setup"
 require "polish"
