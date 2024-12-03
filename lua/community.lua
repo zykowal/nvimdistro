@@ -45,6 +45,7 @@ return {
   { import = "astrocommunity.search.grug-far-nvim" },
   { import = "astrocommunity.markdown-and-latex.render-markdown-nvim" },
   { import = "astrocommunity.file-explorer.oil-nvim" },
+  { import = "astrocommunity.file-explorer.mini-files" },
   { import = "astrocommunity.quickfix.nvim-bqf" },
   { import = "astrocommunity.quickfix.quicker-nvim" },
 }

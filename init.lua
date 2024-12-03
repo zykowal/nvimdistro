@@ -23,7 +23,7 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
   group = cursorGrp,
   callback = function()
     -- Only center if we're not in command or search mode
-    if vim.fn.getcmdtype() == "" and vim.fn.mode() ~= "c" then vim.cmd "norm! zz" end
+    if vim.fn.getcmdtype() == "" and vim.fn.mode() ~= "c" and vim.fn.mode() == "n" then vim.cmd "norm! zz" end
   end,
 })
 
