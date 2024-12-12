@@ -29,7 +29,7 @@ return {
   },
   opts = {
     mappings = {
-      synchronize = "W",
+      synchronize = "<CR>",
     },
   },
 }

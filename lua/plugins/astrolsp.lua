@@ -53,6 +53,13 @@ return {
           "cuda",
         },
       },
+      rust_analyzer = {
+        settings = {
+          ["rust-analyzer"] = {
+            check = { command = "check", extraArgs = {} },
+          },
+        },
+      },
     },
     -- customize how language servers are attached
     handlers = {
