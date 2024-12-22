@@ -3,14 +3,48 @@ local function has_words_before()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
+local function get_icon_provider()
+  local _, mini_icons = pcall(require, "mini.icons")
+  if _G.MiniIcons then
+    return function(kind) return mini_icons.get("lsp", kind or "") end
+  end
+  local lspkind_avail, lspkind = pcall(require, "lspkind")
+  if lspkind_avail then
+    return function(kind) return lspkind.symbolic(kind, { mode = "symbol" }) end
+  end
+end
+---@type function|false|nil
+local icon_provider = false
+
+local function get_icon(ctx)
+  ctx.kind_hl_group = "BlinkCmpKind" .. ctx.kind
+  if ctx.item.source_name == "LSP" then
+    -- TODO: uncomment after nvim-highlight-colors PR merged: https://github.com/brenoprata10/nvim-highlight-colors/pull/135
+    -- local highlight_colors_avail, highlight_colors = pcall(require, "nvim-highlight-colors")
+    -- local color_item = highlight_colors_avail and highlight_colors.format(ctx.item.documentation, { kind = ctx.kind })
+    if icon_provider == false then icon_provider = get_icon_provider() end
+    if icon_provider then
+      local icon = icon_provider(ctx.kind)
+      if icon then ctx.kind_icon = icon end
+    end
+    -- if color_item and color_item.abbr and color_item.abbr_hl_group then
+    --   ctx.kind_icon, ctx.kind_hl_group = color_item.abbr, color_item.abbr_hl_group
+    -- end
+  end
+  return ctx
+end
+
 return {
   "Saghen/blink.cmp",
-  event = "InsertEnter",
-  version = "*",
+  event = { "InsertEnter", "CmdlineEnter" },
+  version = "0.*",
   dependencies = {
     "rafamadriz/friendly-snippets",
+    { "L3MON4D3/LuaSnip", version = "v2.*" },
+    "olimorris/codecompanion.nvim",
+    { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
   },
-  opts_extend = { "sources.completion.enabled_providers" },
+  opts_extend = { "sources.default", "sources.cmdline" },
   opts = {
     snippets = {
       expand = function(snippet) require("luasnip").lsp_expand(snippet) end,
@@ -22,15 +56,27 @@ return {
     },
     -- remember to enable your providers here
     sources = {
-      completion = {
-        enabled_providers = { "lsp", "path", "snippets", "buffer" }, -- add
+      default = { "lsp", "path", "luasnip", "buffer", "dadbod", "codecompanion" },
+      providers = {
+        lsp = {
+          name = "lsp",
+          enabled = true,
+          module = "blink.cmp.sources.lsp",
+          score_offset = 1000,
+        },
+        dadbod = {
+          name = "Dadbod",
+          enabled = true,
+          module = "vim_dadbod_completion.blink",
+          score_offset = 950,
+        },
+        codecompanion = {
+          name = "CodeCompanion",
+          module = "codecompanion.providers.completion.blink",
+          enabled = true,
+          score_offset = 1000,
+        },
       },
-    },
-
-    -- experimental auto-brackets support
-    accept = {
-      auto_brackets = { enabled = true },
-      expand_snippet = function(snippet) require("luasnip").lsp_expand(snippet) end,
     },
     keymap = {
       ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
@@ -46,9 +92,9 @@ return {
       ["<CR>"] = { "accept", "fallback" },
       ["<Tab>"] = {
         function(cmp)
-          if cmp.windows.autocomplete.win:is_open() then
+          if cmp.is_visible() then
             return cmp.select_next()
-          elseif cmp.is_in_snippet() then
+          elseif cmp.snippet_active { direction = 1 } then
             return cmp.snippet_forward()
           elseif has_words_before() then
             return cmp.show()
@@ -58,41 +104,51 @@ return {
       },
       ["<S-Tab>"] = {
         function(cmp)
-          if cmp.windows.autocomplete.win:is_open() then
+          if cmp.is_visible() then
             return cmp.select_prev()
-          elseif cmp.is_in_snippet() then
+          elseif cmp.snippet_active { direction = -1 } then
             return cmp.snippet_backward()
           end
         end,
         "fallback",
       },
     },
-    windows = {
-      autocomplete = {
-        selection = "auto_insert",
+    completion = {
+      menu = {
         border = "none",
         scrollbar = false,
         winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
         draw = {
+          components = {
+            kind_icon = {
+              text = function(ctx)
+                get_icon(ctx)
+                return ctx.kind_icon .. ctx.icon_gap
+              end,
+              highlight = function(ctx) return get_icon(ctx).kind_hl_group end,
+            },
+          },
           columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
         },
       },
+      accept = {
+        auto_brackets = { enabled = true },
+      },
+      list = { selection = "auto_insert" },
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 50,
-        border = "none",
-        scrollbar = false,
-        winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+        window = {
+          border = "rounded",
+          scrollbar = false,
+          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+        },
       },
-      signature_help = {
+    },
+    signature = {
+      window = {
         border = "none",
-        enabled = true,
-        scrollbar = false,
         winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
-      },
-      menu = {
-        border = "none",
-        scrollbar = false,
       },
     },
   },
@@ -108,12 +164,14 @@ return {
               return require("astrocore").extend_tbl(opts, {
                 sources = {
                   -- add lazydev to your completion providers
-                  completion = { enabled_providers = { "lazydev" } },
+                  default = { "lazydev" },
                   providers = {
-                    -- dont show LuaLS require statements when lazydev has items
-                    lsp = { fallback_for = { "lazydev" } },
-                    lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
+                    lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
                   },
+                  min_keyword_length = function(ctx)
+                    if ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil then return 2 end
+                    return 0
+                  end,
                 },
               })
             end
@@ -124,6 +182,8 @@ return {
     -- disable built in completion plugins
     { "hrsh7th/nvim-cmp", enabled = false },
     { "rcarriga/cmp-dap", enabled = false },
+    { "petertriho/cmp-git", enabled = false },
+    { "L3MON4D3/LuaSnip", enabled = true },
     { "onsails/lspkind.nvim", enabled = false },
   },
 }

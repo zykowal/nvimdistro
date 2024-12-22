@@ -22,8 +22,17 @@ local cursorGrp = vim.api.nvim_create_augroup("CursorCenter", { clear = true })
 vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
   group = cursorGrp,
   callback = function()
+    local excluded_filetypes = { "minifiles", "toggleterm", "codecompanion", "alpha" } -- Add filetypes you want to exclude
+    local current_filetype = vim.bo.filetype
     -- Only center if we're not in command or search mode
-    if vim.fn.getcmdtype() == "" and vim.fn.mode() ~= "c" and vim.fn.mode() == "n" then vim.cmd "norm! zz" end
+    if
+      vim.fn.getcmdtype() == ""
+      and vim.fn.mode() ~= "c"
+      and vim.fn.mode() == "n"
+      and not vim.tbl_contains(excluded_filetypes, current_filetype)
+    then
+      vim.cmd "norm! zz"
+    end
   end,
 })
 
