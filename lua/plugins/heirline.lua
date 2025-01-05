@@ -1,6 +1,7 @@
 return {
   "rebelot/heirline.nvim",
   opts = function(_, opts)
+    opts.winbar = nil
     local status = require "astroui.status"
     local ViMode = {
       -- get vim current mode, this information will be required by the provider
