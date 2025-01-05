@@ -3,37 +3,6 @@ local function has_words_before()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
-local function get_icon_provider()
-  local _, mini_icons = pcall(require, "mini.icons")
-  if _G.MiniIcons then
-    return function(kind) return mini_icons.get("lsp", kind or "") end
-  end
-  local lspkind_avail, lspkind = pcall(require, "lspkind")
-  if lspkind_avail then
-    return function(kind) return lspkind.symbolic(kind, { mode = "symbol" }) end
-  end
-end
----@type function|false|nil
-local icon_provider = false
-
-local function get_icon(ctx)
-  ctx.kind_hl_group = "BlinkCmpKind" .. ctx.kind
-  if ctx.item.source_name == "LSP" then
-    -- TODO: uncomment after nvim-highlight-colors PR merged: https://github.com/brenoprata10/nvim-highlight-colors/pull/135
-    -- local highlight_colors_avail, highlight_colors = pcall(require, "nvim-highlight-colors")
-    -- local color_item = highlight_colors_avail and highlight_colors.format(ctx.item.documentation, { kind = ctx.kind })
-    if icon_provider == false then icon_provider = get_icon_provider() end
-    if icon_provider then
-      local icon = icon_provider(ctx.kind)
-      if icon then ctx.kind_icon = icon end
-    end
-    -- if color_item and color_item.abbr and color_item.abbr_hl_group then
-    --   ctx.kind_icon, ctx.kind_hl_group = color_item.abbr, color_item.abbr_hl_group
-    -- end
-  end
-  return ctx
-end
-
 return {
   "Saghen/blink.cmp",
   event = { "InsertEnter", "CmdlineEnter" },
@@ -74,7 +43,6 @@ return {
           name = "CodeCompanion",
           module = "codecompanion.providers.completion.blink",
           enabled = true,
-          score_offset = 1000,
         },
       },
     },
@@ -122,10 +90,11 @@ return {
           components = {
             kind_icon = {
               text = function(ctx)
-                get_icon(ctx)
+                if require("blink.cmp.completion.windows.render.tailwind").get_hex_color(ctx.item) then
+                  return "󱏿"
+                end
                 return ctx.kind_icon .. ctx.icon_gap
               end,
-              highlight = function(ctx) return get_icon(ctx).kind_hl_group end,
             },
           },
           columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
@@ -183,7 +152,6 @@ return {
     { "hrsh7th/nvim-cmp", enabled = false },
     { "rcarriga/cmp-dap", enabled = false },
     { "petertriho/cmp-git", enabled = false },
-    { "L3MON4D3/LuaSnip", enabled = true },
     { "onsails/lspkind.nvim", enabled = false },
   },
 }
