@@ -3,46 +3,97 @@ local function has_words_before()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
+---@type function?, function?
+local icon_provider, hl_provider
+
+local function get_kind_icon(CTX)
+  -- Evaluate icon provider
+  if not icon_provider then
+    local base = function(ctx) ctx.kind_icon_highlight = "BlinkCmpKind" .. ctx.kind end
+    local _, mini_icons = pcall(require, "mini.icons")
+    if _G.MiniIcons then
+      icon_provider = function(ctx)
+        base(ctx)
+        if ctx.item.source_name == "LSP" then
+          local icon, hl = mini_icons.get("lsp", ctx.kind or "")
+          if icon then
+            ctx.kind_icon = icon
+            ctx.kind_icon_highlight = hl
+          end
+        elseif ctx.item.source_name == "Path" then
+          ctx.kind_icon, ctx.kind_icon_highlight =
+            mini_icons.get(ctx.kind == "Folder" and "directory" or "file", ctx.label)
+        end
+      end
+    end
+    if not icon_provider then
+      local lspkind_avail, lspkind = pcall(require, "lspkind")
+      if lspkind_avail then
+        icon_provider = function(ctx)
+          base(ctx)
+          if ctx.item.source_name == "LSP" then
+            local icon = lspkind.symbolic(ctx.kind, { mode = "symbol" })
+            if icon then ctx.kind_icon = icon end
+          end
+        end
+      end
+    end
+    if not icon_provider then icon_provider = function(ctx) base(ctx) end end
+  end
+  -- Evaluate highlight provider
+  if not hl_provider then
+    local highlight_colors_avail, highlight_colors = pcall(require, "nvim-highlight-colors")
+    if highlight_colors_avail then
+      local kinds
+      hl_provider = function(ctx)
+        if not kinds then kinds = require("blink.cmp.types").CompletionItemKind end
+        if ctx.item.kind == kinds.Color then
+          local doc = vim.tbl_get(ctx, "item", "documentation")
+          if doc then
+            local color_item = highlight_colors_avail and highlight_colors.format(doc, { kind = kinds[kinds.Color] })
+            if color_item and color_item.abbr_hl_group then
+              if color_item.abbr then ctx.kind_icon = color_item.abbr end
+              ctx.kind_icon_highlight = color_item.abbr_hl_group
+            end
+          end
+        end
+      end
+    end
+    if not hl_provider then
+      hl_provider = function(ctx)
+        local tailwind_hl = require("blink.cmp.completion.windows.render.tailwind").get_hl(ctx)
+        if tailwind_hl then ctx.kind_icon_highlight = tailwind_hl end
+      end
+    end
+  end
+  -- Call resolved providers
+  icon_provider(CTX)
+  hl_provider(CTX)
+  -- Return text and highlight information
+  return { text = CTX.kind_icon .. CTX.icon_gap, highlight = CTX.kind_icon_highlight }
+end
+
 return {
   "Saghen/blink.cmp",
-  event = { "InsertEnter", "CmdlineEnter" },
-  version = "0.*",
   dependencies = {
-    "rafamadriz/friendly-snippets",
-    { "L3MON4D3/LuaSnip", version = "v2.*" },
     "olimorris/codecompanion.nvim",
     { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
   },
+  event = { "InsertEnter", "CmdlineEnter" },
+  version = "0.*",
   opts_extend = { "sources.default", "sources.cmdline" },
   opts = {
-    snippets = {
-      expand = function(snippet) require("luasnip").lsp_expand(snippet) end,
-      active = function(filter)
-        if filter and filter.direction then return require("luasnip").jumpable(filter.direction) end
-        return require("luasnip").in_snippet()
-      end,
-      jump = function(direction) require("luasnip").jump(direction) end,
-    },
     -- remember to enable your providers here
     sources = {
-      default = { "lsp", "path", "luasnip", "buffer", "dadbod", "codecompanion" },
+      default = { "lsp", "path", "snippets", "buffer", "dadbod", "codecompanion" },
       providers = {
-        lsp = {
-          name = "lsp",
-          enabled = true,
-          module = "blink.cmp.sources.lsp",
-          score_offset = 1000,
-        },
         dadbod = {
           name = "Dadbod",
-          enabled = true,
           module = "vim_dadbod_completion.blink",
-          score_offset = 950,
         },
         codecompanion = {
           name = "CodeCompanion",
           module = "codecompanion.providers.completion.blink",
-          enabled = true,
         },
       },
     },
@@ -59,42 +110,35 @@ return {
       ["<C-e>"] = { "hide", "fallback" },
       ["<CR>"] = { "accept", "fallback" },
       ["<Tab>"] = {
+        "select_next",
+        "snippet_forward",
         function(cmp)
-          if cmp.is_visible() then
-            return cmp.select_next()
-          elseif cmp.snippet_active { direction = 1 } then
-            return cmp.snippet_forward()
-          elseif has_words_before() then
-            return cmp.show()
-          end
+          if has_words_before() or vim.api.nvim_get_mode().mode == "c" then return cmp.show() end
         end,
         "fallback",
       },
       ["<S-Tab>"] = {
+        "select_prev",
+        "snippet_backward",
         function(cmp)
-          if cmp.is_visible() then
-            return cmp.select_prev()
-          elseif cmp.snippet_active { direction = -1 } then
-            return cmp.snippet_backward()
-          end
+          if vim.api.nvim_get_mode().mode == "c" then return cmp.show() end
         end,
         "fallback",
       },
     },
     completion = {
+      list = { selection = { preselect = false, auto_insert = true } },
       menu = {
+        auto_show = function(ctx) return ctx.mode ~= "cmdline" end,
         border = "none",
         scrollbar = false,
         winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
         draw = {
+          treesitter = { "lsp" },
           components = {
             kind_icon = {
-              text = function(ctx)
-                if require("blink.cmp.completion.windows.render.tailwind").get_hex_color(ctx.item) then
-                  return "󱏿"
-                end
-                return ctx.kind_icon .. ctx.icon_gap
-              end,
+              text = function(ctx) return get_kind_icon(ctx).text end,
+              highlight = function(ctx) return get_kind_icon(ctx).highlight end,
             },
           },
           columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
@@ -103,10 +147,9 @@ return {
       accept = {
         auto_brackets = { enabled = true },
       },
-      list = { selection = "auto_insert" },
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 50,
+        auto_show_delay_ms = 0,
         window = {
           border = "rounded",
           scrollbar = false,
@@ -123,6 +166,26 @@ return {
   },
   specs = {
     {
+      "L3MON4D3/LuaSnip",
+      version = "v2.*",
+      optional = true,
+      specs = { { "Saghen/blink.cmp", opts = { snippets = { preset = "luasnip" } } } },
+    },
+    {
+      "AstroNvim/astrolsp",
+      optional = true,
+      opts = function(_, opts)
+        opts.capabilities = require("blink.cmp").get_lsp_capabilities(opts.capabilities)
+
+        -- disable AstroLSP signature help if `blink.cmp` is providing it
+        local blink_opts = require("astrocore").plugin_opts "blink.cmp"
+        if vim.tbl_get(blink_opts, "signature", "enabled") == true then
+          if not opts.features then opts.features = {} end
+          opts.features.signature_help = false
+        end
+      end,
+    },
+    {
       "folke/lazydev.nvim",
       optional = true,
       specs = {
@@ -137,10 +200,6 @@ return {
                   providers = {
                     lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
                   },
-                  min_keyword_length = function(ctx)
-                    if ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil then return 2 end
-                    return 0
-                  end,
                 },
               })
             end
@@ -151,7 +210,5 @@ return {
     -- disable built in completion plugins
     { "hrsh7th/nvim-cmp", enabled = false },
     { "rcarriga/cmp-dap", enabled = false },
-    { "petertriho/cmp-git", enabled = false },
-    { "onsails/lspkind.nvim", enabled = false },
   },
 }
