@@ -1,3 +1,5 @@
+if true then return {} end
+
 return {
   "olimorris/codecompanion.nvim",
   dependencies = {
@@ -25,17 +27,26 @@ return {
   opts = {
     strategies = {
       chat = {
-        adapter = "xai",
+        adapter = "ollama",
       },
       inline = {
-        adapter = "xai",
+        adapter = "ollama",
       },
     },
     adapters = {
-      azure_openai = function()
-        return require("codecompanion.adapters").extend("xai", {
-          env = {
-            api_key = os.getenv "XAI_API_KEY",
+      llama3 = function()
+        return require("codecompanion.adapters").extend("ollama", {
+          name = "deepseek", -- Give this adapter a different name to differentiate it from the default ollama adapter
+          schema = {
+            model = {
+              default = "deepseek-r1:1.5b",
+            },
+            num_ctx = {
+              default = 16384,
+            },
+            num_predict = {
+              default = -1,
+            },
           },
         })
       end,

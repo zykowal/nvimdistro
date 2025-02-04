@@ -20,7 +20,7 @@ return {
   { import = "astrocommunity.pack.java" },
   { import = "astrocommunity.pack.python-ruff" },
   { import = "astrocommunity.pack.svelte" },
-  { import = "astrocommunity.pack.typescript-all-in-one" },
+  { import = "astrocommunity.pack.typescript" },
   { import = "astrocommunity.pack.prisma" },
   { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.motion.nvim-surround" },

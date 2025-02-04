@@ -40,6 +40,7 @@ return {
         termguicolors = true, -- sets vim.opt.termguicolors
         background = "dark", -- sets vim.opt.background
         spelllang = "en", -- sets vim.opt.spelllang
+        laststatus = 3, -- sets vim.opt.laststatus
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)

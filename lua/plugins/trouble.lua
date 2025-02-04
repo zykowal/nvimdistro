@@ -20,7 +20,8 @@ return {
         end
         maps.n["<leader>lc"] = { "<Cmd>Trouble lsp_incoming_calls<CR>", desc = "Incoming Calls" }
         maps.n["<leader>lC"] = { "<Cmd>Trouble lsp_outgoing_calls<CR>", desc = "Outgoing Calls" }
-        maps.n["gL"] = { "<Cmd>Trouble diagnostics toggle filter.buf=0 win.type=float<CR>", desc = "Trouble Diagnostics Float" }
+        maps.n["gL"] =
+          { "<Cmd>Trouble diagnostics toggle filter.buf=0 win.type=float<CR>", desc = "Trouble Diagnostics Float" }
       end,
     },
   },
@@ -32,6 +33,7 @@ return {
       focus = true,
       keys = {
         ["<ESC>"] = "close",
+        ["q"] = "close",
       },
       icons = {
         indent = {
@@ -44,4 +46,13 @@ return {
       },
     }
   end,
+  specs = {
+    { "lewis6991/gitsigns.nvim", optional = true, opts = { trouble = true } },
+    {
+      "catppuccin",
+      optional = true,
+      ---@type CatppuccinOptions
+      opts = { integrations = { lsp_trouble = true } },
+    },
+  },
 }
