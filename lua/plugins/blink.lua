@@ -76,24 +76,21 @@ end
 return {
   "Saghen/blink.cmp",
   dependencies = {
-    "olimorris/codecompanion.nvim",
-    { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+    "kristijanhusak/vim-dadbod-completion",
+    ft = { "sql", "mysql", "plsql" },
+    lazy = true,
   },
   event = { "InsertEnter", "CmdlineEnter" },
   version = "0.*",
-  opts_extend = { "sources.default", "sources.cmdline" },
+  opts_extend = { "sources.default", "cmdline.sources", "term.sources" },
   opts = {
     -- remember to enable your providers here
     sources = {
-      default = { "lsp", "path", "snippets", "buffer", "dadbod", "codecompanion" },
+      default = { "lsp", "path", "snippets", "buffer", "dadbod" },
       providers = {
         dadbod = {
           name = "Dadbod",
           module = "vim_dadbod_completion.blink",
-        },
-        codecompanion = {
-          name = "CodeCompanion",
-          module = "codecompanion.providers.completion.blink",
         },
       },
     },
